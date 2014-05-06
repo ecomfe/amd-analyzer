@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+
+    "name": "AMD Analyzer",
+    "description": "A Toolkit to analyse AMD dependencies.",
+    "version": "1.0",
+    "permissions": [
+        "tabs",
+        "*://*/*"
+    ],
+    "browser_action": {
+      "default_icon": "icon.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://*/*"],
+            "js": [ "document_end.js" ],
+            "run_at":  "document_end"
+        }
+    ],
+    "background": { "scripts" : ["background.js"] }
+}

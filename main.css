@@ -1,0 +1,15 @@
+body { margin: 5px; font-size: 14px; font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif }
+ul, li { margin: 0; padding: 0; border: 0; list-style: none; }
+.header li {
+    float: left;
+    background: #264597;
+    color: #eee;
+    padding: 5px;
+    margin: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header input { width: 400px; border: 1px solid #264597; box-sizing: border-box; height: 26px; }
+.header button { background: #264597; border: 0; box-sizing: border-box; height: 26px; width: 80px; color: #eee;}
+.header:after { clear: both; display: block; content: '\0'; height: 0; }
