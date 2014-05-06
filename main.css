@@ -1,15 +1,55 @@
-body { margin: 5px; font-size: 14px; font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif }
-ul, li { margin: 0; padding: 0; border: 0; list-style: none; }
+body { background: #f9f9f9; margin:0; font-size: 14px; font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif }
+dl, dt, dd, ul, li { margin:0; padding: 0; list-style: none; }
+
 .header li {
     float: left;
-    background: #264597;
-    color: #eee;
-    padding: 5px;
+    background: #bad5f1;
+    color: #333;
+    padding: 3px 5px;
     margin: 3px;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: normal;
+    height: 26px;
+    box-sizing: border-box;
 }
 
-.header input { width: 400px; border: 1px solid #264597; box-sizing: border-box; height: 26px; }
-.header button { background: #264597; border: 0; box-sizing: border-box; height: 26px; width: 80px; color: #eee;}
-.header:after { clear: both; display: block; content: '\0'; height: 0; }
+.header input {
+    margin-top: 3px;
+    width: 400px;
+    border: 1px solid #264597;
+    box-sizing: border-box;
+    height: 26px;
+}
+
+.header button {
+    margin: 3px 10px 3px 0;
+    background: #264597;
+    border: 0;
+    box-sizing: border-box;
+    height: 26px;
+    width: 80px;
+    color: #eee;
+}
+
+.header { border-bottom: 3px solid #ccc; padding: 10px; }
+.header:after{ clear: both; display: block; content: '\0'; height: 0; }
+
+.info { margin: 20px; border: 2px solid #ccc; border-radius: 5px; }
+.info li { background: #fff; border-bottom: 1px solid #ccc; height: 20px; line-height: 20px; padding: 5px 10px; }
+.info li:hover { background: #f9f9f9; }
+.info li:last-child { border-bottom: 0; }
+.info li b { margin-right: 20px; font-weight: normal; }
+.info li span { margin-left: 10px; border-radius: 3px; padding: 3px; }
+.info li[data-circular] .dep-circular,
+.info li[data-direct] .dep-direct,
+.info li[data-hard] .dep-hard { display: inline; }
+.info .dep-circular { background: #e11d21; color: #fff; display: none;}
+.info .dep-direct { background: #3b55a4; color: #fff; display: none;}
+.info .dep-hard { background: #555; color: #fff; display: none;}
+
+#chart {
+    background: #fff;
+    padding: 10px 0;
+    border-bottom: 3px solid #ccc;
+}

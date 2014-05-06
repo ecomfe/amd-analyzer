@@ -6,9 +6,11 @@
 </head>
 <body>
     <div id="header" class="header">
-        <input type="text" id="analyse-id" /><button id="analyse-start">analyse</button>
+        <input type="text" id="analyse-id" placeholder="请输入要分析的模块，或从下边点选自动分析出的入口模块" /><button id="analyse-start">analyse</button><ul></ul>
     </div>
-    <div id="chart" style="height: 800px"></div>
+
+    <div id="chart" style="height: 700px"></div>
+    <ul id="info" class="info"></ul>
 
     <script src="esprima.js"></script>
     <script src="estraverse.js"></script>

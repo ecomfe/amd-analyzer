@@ -31,12 +31,8 @@ define( function ( require ) {
                         }
                     },
                     emphasis: {
-                        label: {
-                            show: false
-                        },
-                        nodeStyle : {
-                            r: 30
-                        },
+                        label: { show: false },
+                        nodeStyle : {  },
                         linkStyle : {}
                     }
                 },
@@ -58,16 +54,16 @@ define( function ( require ) {
         var info = parseConfigAndEntries( esprima.parse( data ) );
 
         amd.initConfigIndex( info.config );
-        var ul = document.createElement( 'ul' );
-        ul.className = 'entries';
+
+        var ul = document.querySelector( '#header ul' );
         for ( var id in info.entries ) {
-            var li = document.createElement( 'li' );
-            li.innerHTML = id;
-            li.setAttribute( 'data-realid', amd.normalize( id ) );
-            li.onclick = createAnalyzer( id );
-            ul.appendChild( li );
+            var b = document.createElement( 'li' );
+            b.innerHTML = id;
+            b.setAttribute( 'data-realid', amd.normalize( id ) );
+            b.onclick = createAnalyzer( id );
+            ul.appendChild( b );
         }
-        document.getElementById( 'header' ).appendChild( ul );
+
         document.getElementById( 'analyse-start' ).onclick = function () {
             analyseModule( document.getElementById( 'analyse-id' ).value );
         };
@@ -77,11 +73,85 @@ define( function ( require ) {
 
     function analyseModule( id ) {
         analyse( id );
+        showModuleInfo( id );
         chart && chart.setOption( getChartOption( id ), !!1 );
     }
 
+    function showModuleInfo( id ) {
+
+        var modules = analyse.getModules();
+        var dependencies = [];
+        var dependenciesMap = {};
+
+        var visitStack = [ id ];
+        var hardStack = [ 1 ];
+        var visited = {};
+        var pointer = 0;
+        visited[ id ] = 1;
+        modules[ id ].realDependencies.forEach( function ( dependency ) {
+            visit( dependency );
+        } );
+
+        var html = '';
+        dependencies.forEach( function ( dependency ) {
+            html += '<li'
+                + (dependency.direct ? ' data-direct="true"' : '')
+                + (dependency.circular ? ' data-circular="true"' : '')
+                + (dependency.hard ? ' data-hard="true"' : '')
+                + '>'
+                + '<b>' + dependency.id + '</b>'
+                + '<span class="dep-direct">直接依赖</span>'
+                + '<span class="dep-hard">装载时依赖</span>'
+                + '<span class="dep-circular">循环依赖</span>'
+                + '</li>'
+        });
+        document.getElementById( 'info' ).innerHTML = html;
+
+        function visit( dependency ) {
+            var id = dependency.id;
+            if ( visited[ id ] ) {
+                var start = pointer;
+                while ( start-- ) {
+                    if ( visitStack[ start ] == id ) {
+                        break;
+                    }
+                }
+
+                if ( start >= 0 ) {
+                    for ( ; start < pointer; start++ ) {
+                        start > 0 && (dependenciesMap[ visitStack[ start ] ].circular = 1);
+                    }
+                }
+            }
+            else {
+                var depObj = {
+                    id: dependency.id,
+                    hard: hardStack[ pointer ] && dependency.hard,
+                    direct: !pointer
+                };
+                dependencies.push( depObj );
+                dependenciesMap[ id ] = depObj;
+
+                visitStack.push( id );
+                hardStack.push( depObj.hard );
+                visited[ id ] = 1;
+                pointer++;
+
+                var depModule = modules[ id ];
+                if ( depModule ) {
+                    depModule.realDependencies.forEach( function ( dependency ) {
+                        visit( dependency );
+                    } );
+                }
+
+                visitStack.pop();
+                hardStack.pop();
+                pointer--;
+            }
+        }
+    }
+
     function getChartOption( id ) {
-        // return chartOptions;
         var modules = analyse.getModules();
 
         var visibleModules = {};
@@ -93,7 +163,15 @@ define( function ( require ) {
         var legendData = [];
         var categoryIndex = 0;
 
-        visit( id ).category = 0;
+        var entryNode = visit( id );
+        entryNode.value = 20;
+        entryNode.category = 0;
+        entryNode.itemStyle = { normal: {
+            brushType : 'both',
+            strokeColor : 'red',
+            color : 'red',
+            lineWidth : 10
+        }};
         var sery = chartOptions.series[ 0 ];
         sery.nodes = nodes;
         sery.links = links;
@@ -102,8 +180,6 @@ define( function ( require ) {
             x: 'left',
             data: legendData
         };
-        console.log(nodes)
-        console.log(links)
 
         return chartOptions;
 
@@ -143,7 +219,9 @@ define( function ( require ) {
                         source: visibleModule.index,
                         target: dependencyNode.index,
                         weight: 3,
-                        itemStyle: {normal: {strokeColor: dependency.hard ? '#5182ab' : '#ddd'}}
+                        itemStyle: {normal: {
+                            strokeColor: dependency.hard ? '#5182ab' : '#ccc'
+                        } }
                     } );
                 } );
             }
