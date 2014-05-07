@@ -9,8 +9,8 @@ define( function ( require ) {
     /**
      * 解析页面的inline script，返回入口模块列表和require配置信息
      *
-     * @param {[type]} source [source description]
-     * @return {[type]} [return description]
+     * @param {string} source 页面的inline script代码
+     * @return {Object} {{Array}entries, {Object}config}
      */
     function parsePageScript( source ) {
         var ast = esprima.parse( source );
