@@ -1,3 +1,8 @@
+/**
+ * @file AMD相关的一些方法
+ * @author errorrik(errorrik@gmail.com)
+ */
+
 define( function ( require ) {
     var requireConf;
     var pageUrl;
@@ -356,19 +361,51 @@ define( function ( require ) {
     }
 
     return {
+        /**
+         * 初始化配置索引
+         *
+         * @param {string} conf 配置对象
+         */
         initConfigIndex: function ( conf ) {
             requireConf = conf;
             createConfIndex();
         },
+
+        /**
+         * 获取模块的url
+         *
+         * @param {string} id 模块id
+         */
         getModuleUrl: function ( id ) {
             var url = toUrl( id + '.js' );
 
             return require( './resolve-url' )( url, pageUrl );
         },
+
+        /**
+         * 设置页面的url。模块url通常要根据页面url计算
+         *
+         * @param {string} url 页面的url
+         */
         setPageUrl: function ( url ) {
             pageUrl = url;
         },
+
+        /**
+         * 解析id，返回带有module和resource属性的Object
+         *
+         * @param {string} id 模块id
+         * @return {Object}
+         */
         parseId: parseId,
+
+        /**
+         * id normalize化
+         *
+         * @param {string} id 需要normalize的模块id
+         * @param {string} baseId 当前环境的模块id
+         * @return {string}
+         */
         normalize: normalize
     };
 });

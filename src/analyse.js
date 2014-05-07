@@ -1,13 +1,23 @@
+/**
+ * @file 分析模块
+ * @author errorrik(errorrik@gmail.com)
+ */
+
 define( function ( require ) {
 
     var BUILTIN_MODULES = {require: 1, module: 1, exports: 1};
     var SYNTAX = estraverse.Syntax;
-    var modules = {};
     var amd = require( './amd' );
     var getText = require( './get-text' );
     var ast2obj = require( './ast2obj' );
 
+    var modules = {};
 
+    /**
+     * 分析模块
+     *
+     * @param {string} id 模块id
+     */
     function analyseModule( id ) {
         var moduleId = amd.parseId( id ).module;
         if ( modules[ moduleId ] ) {
@@ -15,6 +25,7 @@ define( function ( require ) {
         }
 
         var SYNTAX = estraverse.Syntax;
+
         try {
             var source = getText( amd.getModuleUrl( moduleId ) );
             estraverse.traverse( esprima.parse( source ), {
@@ -112,6 +123,12 @@ define( function ( require ) {
         catch ( ex ){}
     }
 
+    /**
+     * 获取分析过的所有模块结果
+     * 返回所有模块结果是不对的，但插件复杂度比较低，就先这样了
+     *
+     * @return {Object}
+     */
     analyseModule.getModules = function () {
         return modules;
     };

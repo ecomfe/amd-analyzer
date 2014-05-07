@@ -1,3 +1,8 @@
+/**
+ * @file 获取文件的内容
+ * @author errorrik(errorrik@gmail.com)
+ */
+
 define( function () {
     return function ( url ) {
         var xhr = new XMLHttpRequest();
