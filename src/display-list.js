@@ -52,7 +52,7 @@ define( function ( require ) {
                 }
 
                 if ( start >= 0 ) {
-                    for ( ; start < pointer; start++ ) {
+                    for ( ; start <= pointer; start++ ) {
                         start > 0 && (dependenciesMap[ visitStack[ start ] ].circular = 1);
                     }
                 }

@@ -19,6 +19,8 @@ define( function ( require ) {
         })
     }
 
+    var config;
+
     /**
      * 目标页面消息回调函数
      *
@@ -32,9 +34,11 @@ define( function ( require ) {
         }
 
         var info = require( './parse-page-script' )( data );
+        config = info.config;
         amd.initConfigIndex( info.config );
 
-        var ul = document.querySelector( '#header ul' );
+
+        var ul = document.querySelector( '.header ul' );
         for ( var id in info.entries ) {
             var li = document.createElement( 'li' );
             li.innerHTML = id;
@@ -45,6 +49,21 @@ define( function ( require ) {
 
         document.getElementById( 'analyse-start' ).onclick = function () {
             analyseModule( document.getElementById( 'analyse-id' ).value );
+        };
+
+        document.getElementById( 'config' ).onclick = function () {
+            var panel = document.querySelector( '.config-panel' );
+            document.querySelector( '.config-panel textarea' ).value = JSON.stringify( config, null, 4 );
+            panel.style.display = panel.style.display == 'none' ? '' : 'none';
+        };
+
+        document.querySelector( '.config-panel button' ).onclick = function () {
+            var confString = document.querySelector( '.config-panel textarea' ).value;
+            var conf = require( './ast2obj' )( esprima.parse( '(' + confString + ')' ).body[0].expression );
+            amd.initConfigIndex( conf );
+            config = conf;
+
+            document.querySelector( '.config-panel' ).style.display = 'none';
         };
     }
 

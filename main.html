@@ -5,7 +5,14 @@
     <link rel="stylesheet" href="main.css" />
 </head>
 <body>
-    <div id="header" class="header">
+    <h1>AMD-Analyzer</h1>
+    <i id="config"></i>
+    <div class="config-panel" style="display:none">
+        <p>分析器将自动分析页面内內联script中的 require.config 配置，并且只能为raw object。如果配置置于外联script或配置中包含变量，可以手工为分析器指定配置</p>
+        <textarea></textarea>
+        <button>Setting</button>
+    </div>
+    <div class="header">
         <input type="text" id="analyse-id" placeholder="请输入要分析的模块，或从下边点选自动分析出的入口模块" /><button id="analyse-start">analyse</button><ul></ul>
     </div>
 
