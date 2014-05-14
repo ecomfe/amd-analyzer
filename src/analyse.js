@@ -82,6 +82,10 @@ define( function ( require ) {
                     if ( factory.type == SYNTAX.FunctionExpression ) {
                         var requireFormalParameter;
                         dependencies.forEach( function ( dep, index ) {
+                            if ( index >= factory.params.length ) {
+                                return false;
+                            }
+
                             if ( dep === 'require' ) {
                                 requireFormalParameter = factory.params[ index ].name;
                                 return false;
@@ -98,7 +102,8 @@ define( function ( require ) {
                                         functionLevel++;
                                         break;
                                     case SYNTAX.CallExpression:
-                                        if ( node.callee.name == requireFormalParameter
+                                        if ( requireFormalParameter
+                                            && node.callee.name == requireFormalParameter
                                             && (requireArg0 = node.arguments[0])
                                             && requireArg0.type == SYNTAX.Literal
                                             && typeof requireArg0.value == 'string'
