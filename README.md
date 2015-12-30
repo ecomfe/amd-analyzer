@@ -1,7 +1,7 @@
 AMD Analyzer
 =====================
 
-一个chrome extension，可以分析页面中的AMD module之间的依赖关系。
+一个chrome extension，可以分析页面中的AMD module之间的依赖关系，也能找出当前页面中的amd相关错误。
 
 
 ### 安装
@@ -53,18 +53,6 @@ require( [ 'main' ], function ( main ) {
 });
 ```
 
-当前暂时只能自动分析页面中字面调用的async require。下面的代码无法自动分析，可以在输入框中手工输入入口模块。
-
-```javascript
-var entries = [ 'main' ];
-require( entries, function ( main ) {
-    main.init();
-});
-```
-
-#### 加载器配置(require.config)
-
-分析器暂时只支持自动分析页面inline script中的`require.config`调用。如果require.config在外部script中，请点击右上角的`齿轮图标`，手工输入加载器配置。
 
 
 

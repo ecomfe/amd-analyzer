@@ -1,0 +1,10 @@
+{
+    "name": {
+        "message": "amd analyzer",
+        "description": "analyse and find bugs in your amd code"
+    },
+    "judgeAmd": {
+        "message": "found amd in this page",
+        "description": "found amd in this page"
+    }
+}

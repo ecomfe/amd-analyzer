@@ -1,22 +1,49 @@
 {
     "manifest_version": 2,
+    "name": "__MSG_name__",
+    "version": "0.0.1",
+    "description": "__MSG_description__",
+    "author": "zoumiaojiang@gmail.com",
 
-    "name": "AMD Analyzer",
-    "description": "A Toolkit to analyse AMD dependencies.",
-    "version": "1.0",
+    "default_locale": "zh_CN",
+
+    "offline_enabled": false,
+
+    "icons": {
+        "16": "./images/icons/icon.png",
+        "48": "./images/icons/icon.png",
+        "128": "./images/icons/icon.png"
+    },
+
     "permissions": [
         "tabs",
-        "*://*/*"
+        "http://*/*",
+        "https://*/*"
     ],
-    "browser_action": {
-      "default_icon": "icon.png"
+
+    "background" : {
+        "scripts": [
+            "background.js"
+        ]
     },
-    "content_scripts": [
-        {
-            "matches": ["*://*/*"],
-            "js": [ "document_end.js" ],
-            "run_at":  "document_end"
-        }
+
+    "content_scripts": [{
+        "matches": ["http://*/*", "https://*/*"],
+        "css": [],
+        "js": [
+            "contentscript.js"
+        ],
+        "run_at": "document_idle"
+    }],
+
+    "web_accessible_resources": [
+        "inject.js"
     ],
-    "background": { "scripts" : ["background.js"] }
-}
+
+    "page_action": {
+        "default_icon": "./images/icons/icon.png",
+        "default_title": "__MSG_judgeAmd__"
+    },
+
+    "commands": {}
+} 

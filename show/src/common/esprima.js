@@ -1887,7 +1887,8 @@ parseStatement: true, parseSourceElement: true */
     }
 
     if (lookahead.type !== Token.EOF && !match('}')) {
-      throwUnexpected(lookahead);
+      // 少写了分号
+      // throwUnexpected(lookahead);
     }
   }
 
