@@ -1,0 +1,14 @@
+{
+    "name": {
+        "message": "JavaScript Amd分析诊断工具",
+        "description": "分析并检查你的JavaScript Amd是不是符合规范"
+    },
+    "description": {
+        "message": "可以在任何页面中检查JavaScript Amd是否出现问题",
+        "description": "可以在任何页面中检查JavaScript Amd是否出现问题"
+    },
+    "judgeAmd": {
+        "message": "在这个页面中发现amd环境",
+        "description": "在这个页面中发现amd环境"
+    }
+}

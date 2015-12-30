@@ -3,7 +3,10 @@
  * @author errorrik(errorrik@gmail.com)
  */
 
-define( function ( require ) {
+define(function (require) {
+
+    // var resolveurl = require('./resolveurl');
+
     var requireConf;
     var pageUrl;
 
@@ -31,6 +34,7 @@ define( function ( require ) {
      */
     var mappingIdIndex;
 
+
     /**
      * 将key为module id prefix的Object，生成数组形式的索引，并按照长度和字面排序
      *
@@ -39,11 +43,12 @@ define( function ( require ) {
      * @param {boolean} allowAsterisk 是否允许*号表示匹配所有
      * @return {Array}
      */
-    function createKVSortedIndex( value, allowAsterisk ) {
-        var index = kv2List( value, 1, allowAsterisk );
-        index.sort( descSorterByKOrName );
+    function createKVSortedIndex(value, allowAsterisk) {
+        var index = kv2List(value, 1, allowAsterisk);
+        index.sort(descSorterByKOrName);
         return index;
     }
+
 
     /**
      * 创建配置信息内部索引
@@ -51,17 +56,17 @@ define( function ( require ) {
      * @inner
      */
     function createConfIndex() {
-        requireConf.baseUrl = requireConf.baseUrl.replace( /\/$/, '' ) + '/';
+        requireConf.baseUrl = requireConf.baseUrl.replace(/\/$/, '') + '/';
 
         // create paths index
-        pathsIndex = createKVSortedIndex( requireConf.paths );
+        pathsIndex = createKVSortedIndex(requireConf.paths);
 
         // create mappingId index
-        mappingIdIndex = createKVSortedIndex( requireConf.map, 1 );
+        mappingIdIndex = createKVSortedIndex(requireConf.map, 1);
         each(
             mappingIdIndex,
-            function ( item ) {
-                item.v = createKVSortedIndex( item.v );
+            function (item) {
+                item.v = createKVSortedIndex(item.v);
             }
         );
 
@@ -69,11 +74,11 @@ define( function ( require ) {
         packagesIndex = [];
         each(
             requireConf.packages,
-            function ( packageConf ) {
+            function (packageConf) {
                 var pkg = packageConf;
-                if ( typeof packageConf === 'string' ) {
+                if (typeof packageConf === 'string') {
                     pkg = {
-                        name: packageConf.split('/')[ 0 ],
+                        name: packageConf.split('/')[0],
                         location: packageConf,
                         main: 'main'
                     };
@@ -81,12 +86,13 @@ define( function ( require ) {
 
                 pkg.location = pkg.location || pkg.name;
                 pkg.main = (pkg.main || 'main').replace(/\.js$/i, '');
-                pkg.reg = createPrefixRegexp( pkg.name );
-                packagesIndex.push( pkg );
+                pkg.reg = createPrefixRegexp(pkg.name);
+                packagesIndex.push(pkg);
             }
         );
-        packagesIndex.sort( descSorterByKOrName );
+        packagesIndex.sort(descSorterByKOrName);
     }
+
 
     /**
      * 对配置信息的索引进行检索
@@ -96,14 +102,15 @@ define( function ( require ) {
      * @param {Array} index 索引对象
      * @param {Function} hitBehavior 索引命中的行为函数
      */
-    function indexRetrieve( value, index, hitBehavior ) {
-        each( index, function ( item ) {
-            if ( item.reg.test( value ) ) {
-                hitBehavior( item.v, item.k, item );
+    function indexRetrieve(value, index, hitBehavior) {
+        each(index, function (item) {
+            if (item.reg.test(value)) {
+                hitBehavior(item.v, item.k, item);
                 return false;
             }
-        } );
+        });
     }
+
 
     /**
      * 将对象数据转换成数组，数组每项是带有k和v的Object
@@ -112,26 +119,27 @@ define( function ( require ) {
      * @param {Object} source 对象数据
      * @return {Array.<Object>}
      */
-    function kv2List( source, keyMatchable, allowAsterisk ) {
+    function kv2List(source, keyMatchable, allowAsterisk) {
         var list = [];
-        for ( var key in source ) {
-            if ( source.hasOwnProperty( key ) ) {
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
                 var item = {
                     k: key,
-                    v: source[ key ]
+                    v: source[key]
                 };
-                list.push( item );
+                list.push(item);
 
-                if ( keyMatchable ) {
+                if (keyMatchable) {
                     item.reg = key === '*' && allowAsterisk
                         ? /^/
-                        : createPrefixRegexp( key );
+                        : createPrefixRegexp(key);
                 }
             }
         }
 
         return list;
     }
+
 
     /**
      * 创建id前缀匹配的正则对象
@@ -140,9 +148,10 @@ define( function ( require ) {
      * @param {string} prefix id前缀
      * @return {RegExp}
      */
-    function createPrefixRegexp( prefix ) {
-        return new RegExp( '^' + prefix + '(/|$)' );
+    function createPrefixRegexp(prefix) {
+        return new RegExp('^' + prefix + '(/|$)');
     }
+
 
     /**
      * 循环遍历数组集合
@@ -151,35 +160,37 @@ define( function ( require ) {
      * @param {Array} source 数组源
      * @param {function(Array,Number):boolean} iterator 遍历函数
      */
-    function each( source, iterator ) {
-        if ( source instanceof Array ) {
-            for ( var i = 0, len = source.length; i < len; i++ ) {
-                if ( iterator( source[ i ], i ) === false ) {
+    function each(source, iterator) {
+        if (source instanceof Array) {
+            for (var i = 0, len = source.length; i < len; i++) {
+                if (iterator(source[i], i) === false) {
                     break;
                 }
             }
         }
     }
 
+
     /**
      * 根据元素的k或name项进行数组字符数逆序的排序函数
      *
      * @inner
      */
-    function descSorterByKOrName( a, b ) {
+    function descSorterByKOrName(a, b) {
         var aValue = a.k || a.name;
         var bValue = b.k || b.name;
 
-        if ( bValue === '*' ) {
+        if (bValue === '*') {
             return -1;
         }
 
-        if ( aValue === '*' ) {
+        if (aValue === '*') {
             return 1;
         }
 
         return bValue.length - aValue.length;
     }
+
 
     /**
      * 将`模块标识+'.extension'`形式的字符串转换成相对的url
@@ -188,7 +199,7 @@ define( function ( require ) {
      * @param {string} source 源字符串
      * @return {string}
      */
-    function toUrl( source ) {
+    function toUrl(source) {
         // 分离 模块标识 和 .extension
         var extReg = /(\.[a-z0-9]+)$/i;
         var queryReg = /(\?[^#]*)$/;
@@ -196,38 +207,38 @@ define( function ( require ) {
         var id = source;
         var query = '';
 
-        if ( queryReg.test( source ) ) {
+        if (queryReg.test(source)) {
             query = RegExp.$1;
-            source = source.replace( queryReg, '' );
+            source = source.replace(queryReg, '');
         }
 
-        if ( extReg.test( source ) ) {
+        if (extReg.test(source)) {
             extname = RegExp.$1;
-            id = source.replace( extReg, '' );
+            id = source.replace(extReg, '');
         }
 
         var url = id;
 
         // paths处理和匹配
         var isPathMap;
-        indexRetrieve( id, pathsIndex, function ( value, key ) {
-            url = url.replace( key, value );
+        indexRetrieve(id, pathsIndex, function (value, key) {
+            url = url.replace(key, value);
             isPathMap = 1;
         } );
 
         // packages处理和匹配
-        if ( !isPathMap ) {
+        if (!isPathMap) {
             indexRetrieve(
                 id,
                 packagesIndex,
-                function ( value, key, item ) {
-                    url = url.replace( item.name, item.location );
+                function (value, key, item) {
+                    url = url.replace(item.name, item.location);
                 }
             );
         }
 
         // 相对路径时，附加baseUrl
-        if ( !/^([a-z]{2,10}:\/)?\//i.test( url ) ) {
+        if (!/^([a-z]{2,10}:\/)?\//i.test(url)) {
             url = requireConf.baseUrl + url;
         }
 
@@ -245,25 +256,25 @@ define( function ( require ) {
      * @param {string} baseId 当前环境的模块标识
      * @return {string}
      */
-    function normalize( id, baseId ) {
-        if ( !id ) {
+    function normalize(id, baseId) {
+        if (!id) {
             return '';
         }
 
         baseId = baseId || '';
-        var idInfo = parseId( id );
-        if ( !idInfo ) {
+        var idInfo = parseId(id);
+        if (!idInfo) {
             return id;
         }
 
         var resourceId = idInfo.resource;
-        var moduleId = relative2absolute( idInfo.module, baseId );
+        var moduleId = relative2absolute(idInfo.module, baseId);
 
         each(
             packagesIndex,
-            function ( packageConf ) {
+            function (packageConf) {
                 var name = packageConf.name;
-                if ( name === moduleId ) {
+                if (name === moduleId) {
                     moduleId = name + '/' + packageConf.main;
                     return false;
                 }
@@ -274,20 +285,20 @@ define( function ( require ) {
         indexRetrieve(
             baseId,
             mappingIdIndex,
-            function ( value ) {
+            function (value) {
 
                 indexRetrieve(
                     moduleId,
                     value,
-                    function ( mdValue, mdKey ) {
-                        moduleId = moduleId.replace( mdKey, mdValue );
+                    function (mdValue, mdKey) {
+                        moduleId = moduleId.replace(mdKey, mdValue);
                     }
                 );
 
             }
         );
 
-        if ( resourceId ) {
+        if (resourceId) {
             moduleId += '!' + resourceId;
         }
 
@@ -302,20 +313,20 @@ define( function ( require ) {
      * @param {string} baseId 当前所在环境id
      * @return {string}
      */
-    function relative2absolute( id, baseId ) {
-        if ( id.indexOf( '.' ) === 0 ) {
-            var basePath = baseId.split( '/' );
-            var namePath = id.split( '/' );
+    function relative2absolute(id, baseId) {
+        if (id.indexOf('.') === 0) {
+            var basePath = baseId.split('/');
+            var namePath = id.split('/');
             var baseLen = basePath.length - 1;
             var nameLen = namePath.length;
             var cutBaseTerms = 0;
             var cutNameTerms = 0;
 
-            pathLoop: for ( var i = 0; i < nameLen; i++ ) {
+            pathLoop: for (var i = 0; i < nameLen; i++) {
                 var term = namePath[ i ];
-                switch ( term ) {
+                switch (term) {
                     case '..':
-                        if ( cutBaseTerms < baseLen ) {
+                        if (cutBaseTerms < baseLen) {
                             cutBaseTerms++;
                             cutNameTerms++;
                         }
@@ -332,9 +343,9 @@ define( function ( require ) {
             }
 
             basePath.length = baseLen - cutBaseTerms;
-            namePath = namePath.slice( cutNameTerms );
+            namePath = namePath.slice(cutNameTerms);
 
-            return basePath.concat( namePath ).join( '/' );
+            return basePath.concat(namePath).join('/');
         }
 
         return id;
@@ -347,13 +358,13 @@ define( function ( require ) {
      * @param {string} id 标识
      * @return {Object}
      */
-    function parseId( id ) {
-        var segs = id.split( '!' );
+    function parseId(id) {
+        var segs = id.split('!');
 
-        if ( /^[-_a-z0-9\.]+(\/[-_a-z0-9\.]+)*$/i.test( segs[ 0 ] ) ) {
+        if (/^[-_a-z0-9\.]+(\/[-_a-z0-9\.]+)*$/i.test(segs[0])) {
             return {
-                module   : segs[ 0 ],
-                resource : segs[ 1 ]
+                module: segs[0],
+                resource: segs[1]
             };
         }
 
@@ -366,7 +377,7 @@ define( function ( require ) {
          *
          * @param {string} conf 配置对象
          */
-        initConfigIndex: function ( conf ) {
+        initConfigIndex: function (conf) {
             requireConf = conf;
             createConfIndex();
         },
@@ -376,18 +387,17 @@ define( function ( require ) {
          *
          * @param {string} id 模块id
          */
-        getModuleUrl: function ( id ) {
-            var url = toUrl( id + '.js' );
-
-            return require( './resolve-url' )( url, pageUrl );
-        },
+        // getModuleUrl: function (id) {
+        //     var url = toUrl(id + '.js');
+        //     return resolveurl(url, pageUrl || '');
+        // },
 
         /**
          * 设置页面的url。模块url通常要根据页面url计算
          *
          * @param {string} url 页面的url
          */
-        setPageUrl: function ( url ) {
+        setPageUrl: function (url) {
             pageUrl = url;
         },
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+    <h1>
+        AMD.Analyzer<a id="tabinfo" target="_blank"></a>
+        <div id="log-filter">
+            <span id="log-info-item" class="log-filter-item" data-level="0"><input type="checkbox" checked="checked" /><label style="color:#30e216;">info</label></span>
+            <span id="log-notice-item" class="log-filter-item" data-level="1"><input type="checkbox" checked="checked" /><label style="color:#4e02fd;">notice</label></span>
+            <span id="log-warm-item" class="log-filter-item" data-level="2"><input type="checkbox" checked="checked" /><label style="color:yellow;">warm</label></span>
+            <span id="log-error-item" class="log-filter-item" data-level="3"><input type="checkbox" checked="checked" /><label style="color:red;">error</label></span>
+        </div>
+    </h1>
+    <input type="hidden" value="" id="analyse-id"/>
+    <div id="pannel">
+        <div id="analyse">
+            <ul><li id="amdinfobtn">config</li></ul>
+            <div id="charts" style="height: 700px;">
+            </div>
+            <div id="config" class="config" style="display:none">
+                <p>分析器将自动分析页面内內联script中的 require.config 配置，并且只能为raw object。如果配置置于外联script或配置中包含变量</p>
+                <textarea disabled="disabled"></textarea>
+                <!-- <span id="setting-btn">设置</span> -->
+            </div>
+        </div>
+        <div id="info">
+            <ul>
+                <p>Welcome to AMD-analyser</p>
+                <p>This panel will show all of the AMD information in your page</p><br>
+                <li class="last">~ <input type="text" id="command" readonly="true"/></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="footer">
+        @ <a href="https://github.com/ecomfe/amd-analyzer" target="_blank">https://github.com/ecomfe/amd-analyzer</a>
+    </div>
+
+    <script src="./src/common/esprima.js"></script>
+    <script src="./src/common/estraverse.js"></script>
+    <script src="./src/common/escodegen.js"></script>
+    <script src="./src/common/esl.js"></script>
+    <script src="./src/common/jquery-2.1.4.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>

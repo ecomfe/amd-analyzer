@@ -1,0 +1,212 @@
+body { background: #f9f9f9; margin:0; font-size: 12px; font-family: 'consolas', 'Open Sans Light',"Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;font-style: italic;}
+dl, dt, dd, ul, li, p, h1 { margin:0; padding: 0; list-style: none; }
+
+h1 {
+    padding: 10px 10px 0;
+    font-family: 'consolas', 'Open Sans Light',sans-serif;
+    font-size: 30px;
+    height: 40px;
+    line-height: 40px;
+    color: #f24a71;
+    background: #efefef;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    text-shadow: 2px 2px 2px #666;
+}
+#tabinfo {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+    text-shadow: none;
+}
+#tabinfo:hover {
+    text-decoration: underline;
+    color: #21cbff;
+}
+#analyse #amdinfobtn {
+    background-color: #21cbff;
+}
+#pannel {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    top: 51px;
+}
+
+#analyse {
+    width: 55%;
+    height: 100%;
+    float: left;
+    overflow: hidden;
+    //background-color: #eee;
+}
+
+#analyse #config {
+    position: absolute;
+    left: 5px;
+    top: 35px;
+    width: 650px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #f5f5f5;
+    font-size: 12px;
+    z-index:10000;
+}
+
+#config p { color: #666; }
+
+#config textarea {
+    width: 650px;
+    height: 400px;
+    box-sizing: border-box;
+    font-size: 12px;
+    outline: none;
+    padding: 10px;
+    margin-top:5px;
+    font-style: italic;
+    font-family: 'consolas';
+    color: #bb0e14;
+    border: 1px solid #ccc;
+}
+#config button {
+    padding: 5px 10px;
+    border: 0;
+    background-color: #21cbff;
+    color: #fff;
+    border-radius: 3px;
+    font-style: italic;
+    font-family: 'consolas';
+    float: right;
+    outline: none;
+    margin-top: 5px;
+    cursor: pointer;
+}
+#config button:hover {
+    background-color: #f24a71;
+}
+#info {
+    width: 45%;
+    height: 100%;
+    float: left;
+    border-left: 1px solid #ccc;
+    margin-left: -6px;
+    background: #000;
+    overflow-y: scroll;
+    color: #fff;
+    margin-right: 5px;
+}
+#info ul {
+    padding: 10px;
+    height: 100%;
+    margin-bottom: 30px;
+}
+#info ul li {
+    padding: 3px 0;
+}
+#info ul li i {
+    font-weight: bolder;
+    display: inline-block;
+}
+#info ul li a {
+    color: #f24a71;
+}
+#info ul li b {
+    color: #f24a71;
+    padding: 0 3px;
+}
+
+#info ul li.log-notice i {
+    color: #4e02fd;
+}
+#info ul li.log-warm i {
+    color: yellow;
+}
+#info ul li.log-error i {
+    color: red;
+}
+#info ul li.log-info i {
+    color: #30e216;
+}
+#info ul li em {
+    color: #666;
+    margin-left: 0px;
+}
+#command {
+    width: 95%;
+    background: #000;
+    border: 0;
+    outline: none;
+    color: yellow;
+    font-style: italic;
+    font-family: 'consolas';
+}
+#footer {
+    height: 20px;
+    left: 0;
+    right: 0;
+    background: #eee;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid #ccc;
+    text-align: right;
+    padding-right: 30px;
+    line-height: 20px;
+}
+#footer a {
+    color: #f24a71;
+    text-decoration: none;
+}
+#footer a:hover {
+    color: #21cbff;
+}
+
+#analyse ul li {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #f24a71;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#analyse ul li.import-script {
+    background: green;
+}
+
+#log-filter {
+    float: right;
+}
+#log-filter input {
+    cursor: inherit;
+}
+#log-filter label {
+    font-size: 12px;
+    font-weight: normal;
+    text-shadow: 2px 2px 2px #666;
+    position: relative;
+    top: -1px;
+    margin-left: 2px;
+    cursor: inherit;
+}
+#log-filter span {
+    cursor: pointer;
+}
+
+#setting-btn {
+    display: inline-block;
+    height: 24px;
+    line-height: 27px;
+    width: 50px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #21cbff;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 10px;
+}
